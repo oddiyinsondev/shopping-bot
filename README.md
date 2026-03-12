@@ -1,0 +1,1 @@
+Bu botni commanda bo'lib ishlaymiz 

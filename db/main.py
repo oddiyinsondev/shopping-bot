@@ -13,6 +13,12 @@ def ReadProduct(category_id):
     malumot = cursor.fetchall()
     return malumot
 
+def ReadProducts(name):
+    cursor.execute("select * from product where name=?", (name,))
+    malumot = cursor.fetchone()
+    return malumot
+
+
 
 def AddCategory(name):
     cursor.execute("insert into Category(name) values(?);", (name,))
@@ -25,6 +31,10 @@ def ReadCategory():
     return malumotlar
 
 
+def ReadCategorys():
+    cursor.execute("select * from category;")
+    malumotlar = cursor.fetchall()
+    return malumotlar
 
 
 def AddUsers(user_id, fullname):

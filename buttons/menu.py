@@ -10,3 +10,10 @@ def MenyuBot(products):
     buttons.adjust(2)
     return buttons.as_markup()
     
+def Soni():
+    buttons = InlineKeyboardBuilder()
+    for i in range(1, 10):
+        buttons.add(InlineKeyboardButton(text=f"{i}", callback_data=f"{i}"))
+    buttons.add(InlineKeyboardButton(text="ortga", callback_data="back"))
+    buttons.adjust(3)
+    return buttons.as_markup()

@@ -8,6 +8,19 @@ def AddProduct(name, category_id, price, image):
     c.commit()
     return "bajarildi"
 
+def AddKarzinka(user_id, name, price, category, soni):
+    cursor.execute("insert into Karzinka(user_id, name, price, category,soni) values(?, ?, ?, ?, ?)", (user_id, name, price, category, soni))
+    c.commit()
+    return "bajarildi"
+
+
+def ReadKarzinka(user_id):
+    cursor.execute("select * from Karzinka where user_id = ?", (user_id,))
+    malumot = cursor.fetchall()
+    return malumot
+
+
+
 def ReadProduct(category_id):
     cursor.execute("select * from product where category_id=?", (category_id,))
     malumot = cursor.fetchall()
@@ -78,6 +91,17 @@ def AdsUsers():
 #                     image text not null
 #                );               
 #                """)
+
+# cursor.execute("""
+#                create table Karzinka(
+#                     ID INTEGER PRIMARY KEY NOT NULL,
+#                     user_id int not null,
+#                     name text not null,
+#                     price real not null,
+#                     category text not null
+#                );               
+#                """)
+
 
 # c.commit()
 # print("bajarildi")

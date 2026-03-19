@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from aiogram.filters import CommandStart
-from db.main import ReadProduct, ReadCategorys, ReadProducts, AddKarzinka, ReadKarzinka, ReadCategory
+from buttons.delete import delete_buttons
+from db.main import ReadProduct, ReadCategorys, ReadProducts, AddKarzinka, ReadKarzinka, ReadCategory, DeleteKarzinka
 from buttons.menu import MenyuBot, Soni
 from buttons.inline_buttons import Menyu
 from state.users import ProductState
@@ -49,7 +49,14 @@ async def KarzinkaBot(call: CallbackQuery, state: FSMContext):
         await call.message.answer("Asosiy sahifadasiz", reply_markup=Menyu(category=ReadCategory()))
         await call.message.delete()
         await state.clear()
-        
+
+@router.callback_query(F.data == 'del', ProductState.C)
+async def DeleteBot(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    DeleteKarzinka(user_id=user_id)
+    await call.message.answer("Asosiy sahifadasiz", reply_markup=Menyu(category=ReadCategory()))
+    await state.clear()
+    await call.message.delete()
         
 
 
@@ -67,7 +74,8 @@ async def Menyubot(call: CallbackQuery, state: FSMContext):
         for i in malumot:
             zakaz += f"Category: {i[4]}\nNomi: {i[2]}\nNarxi: {i[3]} so'm\nSoni: {i[5]} pors\n\n"
             narxi += i[3] * i[5]
-        await call.message.answer(f"Karzinka bo'limi\n{zakaz}\nJami summa {narxi} so'm")
+        await call.message.answer(f"Karzinka bo'limi\n{zakaz}\nJami summa {narxi} so'm", reply_markup=delete_buttons)
+        await state.set_state(ProductState.C)
         await call.message.delete()
     else:
         for cat in ReadCategorys():

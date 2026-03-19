@@ -19,6 +19,10 @@ def ReadKarzinka(user_id):
     malumot = cursor.fetchall()
     return malumot
 
+def DeleteKarzinka(user_id):
+    cursor.execute("Delete from Karzinka where user_id = ?",(user_id, ))
+    c.commit()
+    return "bajarildi"
 
 
 def ReadProduct(category_id):
